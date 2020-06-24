@@ -1,16 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Main } from "./src/Main";
-import queryBooks from "./src/utilities/TestQuery";
-
-
-queryBooks();
+import { Routes } from "./src/navigation/Routes";
+// import { Main } from "./src/Main";
+// import queryBooks from "./src/utilities/TestQuery";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-    </View>
+      <Routes/>
   );
 }
 
