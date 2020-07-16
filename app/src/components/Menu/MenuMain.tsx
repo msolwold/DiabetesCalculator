@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, Button, FlatList } from "react-native";
-import { MenuStackNavProps } from "./MenuTab-Types";
+import { MenuStackNavProps } from "../../navigation/Menu/MenuStack_types";
 import faker from "faker";
 
 

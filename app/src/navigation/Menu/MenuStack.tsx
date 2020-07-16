@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { MenuStackParamList } from "../../components/Menu/MenuTab-Types";
+import { MenuStackParamList } from "./MenuStack_types";
 import { MenuMain } from "../../components/Menu/MenuMain";
 import { Item } from "../../components/Menu/Item/MenuItem";
 

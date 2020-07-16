@@ -3,12 +3,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { HomeStack } from "./Home/HomeStack";
+import { HomeScreen } from "../components/Home/HomeScreen";
 import { MenuStack } from "./Menu/MenuStack";
 import { HistoryStack } from "./History/HistoryStack";
 import { SettingsStack } from "./Settings/SettingsStack";
 
-import { MainTabsPamramList } from "./MainTabRoutes-Types";
+import { MainTabsPamramList } from "./MainTabRoutes_types";
 
 const Tabs = createBottomTabNavigator<MainTabsPamramList>();
 
@@ -48,7 +48,7 @@ export const MainTabRoutes = ({ }) => {
           inactiveTintColor: "gray",
         }}
       >
-        <Tabs.Screen name="Home" component={HomeStack} />
+        <Tabs.Screen name="Home" component={HomeScreen} />
         <Tabs.Screen name="Menu" component={MenuStack} />
         <Tabs.Screen name="History" component={HistoryStack} />
         <Tabs.Screen name="Settings" component={SettingsStack} />

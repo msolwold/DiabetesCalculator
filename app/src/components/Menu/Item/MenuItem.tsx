@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from "react-native";
-import { MenuStackNavProps } from "../MenuTab-Types";
+import { MenuStackNavProps } from "../../../navigation/Menu/MenuStack_types";
 
 export function Item({ route }: MenuStackNavProps<"Item">) {
     return (
