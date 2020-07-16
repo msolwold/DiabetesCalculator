@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
-interface SettingsTabScreenProps {
+interface SettingsStackProps {
 
 }
 
-export const SettingsTabScreen: React.FC<SettingsTabScreenProps> = ({}) => {
+export const SettingsStack: React.FC<SettingsStackProps> = ({}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text> I am the Settings screen </Text>

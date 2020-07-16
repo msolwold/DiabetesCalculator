@@ -1,14 +1,14 @@
 import React from 'react'
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
-interface HistoryTabScreenProps {
-
+interface HomeStackProps {
+  name: string;
 }
 
-export const HistoryTabScreen: React.FC<HistoryTabScreenProps> = ({}) => {
+export const HomeStack: React.FC<HomeStackProps> = ({}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text> I am the History screen </Text>
+      <Text> I am the Home screen. </Text>
     </SafeAreaView>
   );
 }

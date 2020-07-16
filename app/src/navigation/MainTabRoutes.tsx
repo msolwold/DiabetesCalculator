@@ -2,20 +2,22 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { HomeTabScreen } from "../components/HomeTabScreen";
-import { MenuTabScreen } from "../components/MenuTabScreen";
-import { HistoryTabScreen } from "../components/HistoryTabScreen";
-import { SettingsTabScreen } from "../components/SettingsTabScreen";
 
-const Tabs = createBottomTabNavigator();
+import { HomeStack } from "./Home/HomeStack";
+import { MenuStack } from "./Menu/MenuStack";
+import { HistoryStack } from "./History/HistoryStack";
+import { SettingsStack } from "./Settings/SettingsStack";
 
+import { MainTabsPamramList } from "./MainTabRoutes-Types";
 
-export const Routes = ({}) => {
+const Tabs = createBottomTabNavigator<MainTabsPamramList>();
+
+export const MainTabRoutes = ({ }) => {
   return (
     <NavigationContainer>
       <Tabs.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({color, size }) => {
+          tabBarIcon: ({ color, size }) => {
             if (route.name === "Home") {
               return <Ionicons name={"ios-home"} size={size} color={color} />;
             } else if (route.name === "Menu") {
@@ -46,10 +48,10 @@ export const Routes = ({}) => {
           inactiveTintColor: "gray",
         }}
       >
-        <Tabs.Screen name="Home" component={HomeTabScreen}/>
-        <Tabs.Screen name="Menu" component={MenuTabScreen} />
-        <Tabs.Screen name="History" component={HistoryTabScreen} />
-        <Tabs.Screen name="Settings" component={SettingsTabScreen} />
+        <Tabs.Screen name="Home" component={HomeStack} />
+        <Tabs.Screen name="Menu" component={MenuStack} />
+        <Tabs.Screen name="History" component={HistoryStack} />
+        <Tabs.Screen name="Settings" component={SettingsStack} />
       </Tabs.Navigator>
     </NavigationContainer>
   );

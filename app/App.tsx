@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import { Routes } from "./src/navigation/Routes";
+import { MainTabRoutes } from "./src/navigation/MainTabRoutes";
 // import { Main } from "./src/Main";
 // import queryBooks from "./src/utilities/TestQuery";
 
 export default function App() {
   return (
-      <Routes />
+      <MainTabRoutes />
   );
 }
 
