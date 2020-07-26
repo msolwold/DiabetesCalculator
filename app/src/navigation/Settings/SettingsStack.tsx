@@ -1,23 +1,20 @@
-import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { SettingsScreen } from "../../components/Settings/SettingsScreen";
 
-interface SettingsStackProps {
+interface SettingsStackProps {}
 
-}
+const Stack = createStackNavigator();
 
 export const SettingsStack: React.FC<SettingsStackProps> = ({}) => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text> I am the Settings screen </Text>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Main"
+                component={SettingsScreen}
+                options={() => ({ headerTitle: "Settings" })}
+            />
+        </Stack.Navigator>
+    );
+};
