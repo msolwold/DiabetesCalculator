@@ -42,13 +42,14 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
 
     function _onChangeText(
         text: string,
-        func: (value: SetStateAction<number>) => void
+        setState: (value: SetStateAction<number>) => void
     ): void {
         let val = text != "" ? parseInt(text) : 0;
         if (val > 100) return; // ! Some cap on the value
-        func(val);
+        setState(val);
     }
 
+    // TODO: Convert to API call later
     function _getSettings(): void {
         AsyncStorage.getItem("bgCorrection", (errors, result) => {
             if (result) setBgCorrection(parseInt(result));
