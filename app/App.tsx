@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { MainTabRoutes } from "./src/navigation/MainTabRoutes";
+import { AppHeader } from "./src/components/Header/AppHeader";
 // import { Main } from "./src/Main";
 // import queryBooks from "./src/utilities/TestQuery";
 

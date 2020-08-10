@@ -12,7 +12,7 @@ import { MainTabsPamramList } from "./MainTabRoutes_types";
 
 const Tabs = createBottomTabNavigator<MainTabsPamramList>();
 
-export const MainTabRoutes = ({ }) => {
+export const MainTabRoutes = ({}) => {
   return (
     <NavigationContainer>
       <Tabs.Navigator

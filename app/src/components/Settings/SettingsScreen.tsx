@@ -34,7 +34,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                     }
                     style={{ width: 40, borderWidth: 0.2 }}
                 />
-                <Text> : 1 Carb</Text>
+                <Text> : 1 Unit</Text>
             </View>
             <Button title="Save" onPress={() => _saveSettings()} />
         </View>
