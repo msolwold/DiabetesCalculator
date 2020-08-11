@@ -5,8 +5,8 @@ import { TextInput } from "react-native-gesture-handler";
 interface SettingsScreenProps {}
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
-    const [bgCorrection, setBgCorrection] = useState(-1);
-    const [insulinRatio, setInsulinRatio] = useState(-1);
+    const [bgCorrection, setBgCorrection] = useState<number>(-1);
+    const [insulinRatio, setInsulinRatio] = useState<number>(-1);
 
     useEffect(() => {
         if (bgCorrection < 0 || insulinRatio < 0) _getSettings();
