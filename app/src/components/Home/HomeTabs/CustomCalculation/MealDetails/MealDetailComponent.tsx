@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Picker } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
+import {Picker} from '@react-native-community/picker';
 
 interface MealDetailComponentProps {}
 
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
 		padding: 2,
 	},
 	picker: {
-		width: ,
+		width: '100%',
 		height: 20,
 		backgroundColor: 'black',
 	},
