@@ -1,16 +1,18 @@
 import React from "react";
 import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
 
-interface HomeButtonsProps {}
+interface HomeButtonsProps {
+  currentTab: 0 | 1;
+}
 
-export const HomeButtons: React.FC<HomeButtonsProps> = ({}) => {
+export const HomeButtons: React.FC<HomeButtonsProps> = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => alert("TEMP: Are you sure you want to clear the screen?")}
         style={styles.button}
       >
-        <Text>Clear Info</Text>
+        <Text>{props.currentTab}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => alert("TEMP: Are you sure you want to log this meal?")}
