@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-	View,
-	Text,
 	StyleSheet,
 	KeyboardAvoidingView,
 	Platform,
@@ -9,7 +7,6 @@ import {
 import { MealDetailComponent } from './MealDetails/MealDetailComponent';
 import { CarbCalculationComponent } from './CarbCalculation/CarbCalculationComponent';
 import { BGCalculationComponent } from './BGCalculation/BGCalculationComponent';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 interface CustomCalculationProps {}
 
