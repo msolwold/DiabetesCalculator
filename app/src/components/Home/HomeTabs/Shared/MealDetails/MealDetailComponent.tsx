@@ -9,21 +9,20 @@ import {
 import { DatePickerComponent } from '../../../../Shared/DatePicker/DatePickerComponent';
 import moment from 'moment';
 import { ItemPickerComponent } from '../../../../Shared/ItemPicker/ItemPickerComponent';
-import { ListItem } from '../../../../shared-types';
+import { mealTypes } from '../../../../../models/Shared/listItems';
 
-interface MealDetailComponentProps {}
+interface MealDetailComponentProps {
+	mealName: string;
+	setMealName: (name: string) => void;
+	setMealType: (type: string) => void;
+	mealDate: Date;
+	setMealDate: (date: Date) => void;
+}
 
-export const MealDetailComponent: React.FC<MealDetailComponentProps> = ({}) => {
-	let [mealName, setMealName] = useState<string>('');
+export const MealDetailComponent: React.FC<MealDetailComponentProps> = (
+	props
+) => {
 	let [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
-	let [mealDate, setMealDate] = useState<Date>(new Date());
-
-	const mealTypes: Array<ListItem> = [
-		{ key: 1, label: 'Breakfast', value: 'breakfast'},
-		{ key: 2, label: 'Lunch', value: 'lunch'},
-		{ key: 3, label: 'Dinner', value: 'dinner'},
-		{ key: 4, label: 'Snack', value: 'snack'},
-	];
 
 	return (
 		<View style={styles.container}>
@@ -32,8 +31,8 @@ export const MealDetailComponent: React.FC<MealDetailComponentProps> = ({}) => {
 					<TextInput
 						returnKeyType="done"
 						placeholder="Enter Meal Name..."
-						value={mealName}
-						onChangeText={(text) => setMealName(text)}
+						value={props.mealName}
+						onChangeText={(text) => props.setMealName(text)}
 						style={styles.nameInput}
 					></TextInput>
 				</MealDetailItemComponent>
@@ -41,19 +40,27 @@ export const MealDetailComponent: React.FC<MealDetailComponentProps> = ({}) => {
 
 			<View style={styles.sectionContainer}>
 				<MealDetailItemComponent labelName="Meal Type">
-					<ItemPickerComponent data={mealTypes} />
+					<ItemPickerComponent
+						data={mealTypes}
+						_onChange={props.setMealType}
+					/>
 				</MealDetailItemComponent>
 
 				<MealDetailItemComponent labelName="Meal Date">
-					<TouchableOpacity style={styles.datePicker} onPress={() => _toggleModal()}>
-						<Text>{moment(mealDate).format('MMMM Do YYYY')}</Text>
+					<TouchableOpacity
+						style={styles.datePicker}
+						onPress={() => _toggleModal()}
+					>
+						<Text>
+							{moment(props.mealDate).format('MMMM Do YYYY')}
+						</Text>
 					</TouchableOpacity>
 				</MealDetailItemComponent>
 			</View>
 
 			<DatePickerComponent
 				isVisible={dateModalVisible}
-				savedDate={mealDate}
+				savedDate={props.mealDate}
 				saveDate={_setDate}
 				closeModal={_toggleModal}
 				resetDate={_resetDate}
@@ -62,19 +69,18 @@ export const MealDetailComponent: React.FC<MealDetailComponentProps> = ({}) => {
 	);
 
 	function _setDate(date: Date): void {
-		setMealDate(date);
+		props.setMealDate(date);
 		_toggleModal();
-    }
-    
+	}
+
 	function _resetDate(): void {
-        setMealDate(new Date());
-        _toggleModal();
+		props.setMealDate(new Date());
+		_toggleModal();
 	}
 
 	function _toggleModal(): void {
 		setDateModalVisible((dateModalVisible = !dateModalVisible));
 	}
-
 };
 
 interface MealDetailItemComponentProps {
@@ -87,7 +93,7 @@ const MealDetailItemComponent: React.FC<MealDetailItemComponentProps> = (
 	return (
 		<View style={styles.fieldContainer}>
 			<View style={{ flex: 1 }}>
-				<Text style={{fontWeight: '700'}}>{props.labelName}:</Text>
+				<Text style={{ fontWeight: '700' }}>{props.labelName}:</Text>
 			</View>
 			<View style={{ flex: 1 }}>{props.children}</View>
 		</View>
@@ -110,7 +116,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignContent: 'space-around',
 		width: '100%',
-		borderWidth: 0.5,
 		padding: 10,
 	},
 	nameInput: {
@@ -118,12 +123,12 @@ const styles = StyleSheet.create({
 		width: '100%',
 		borderWidth: 0.5,
 		padding: 2,
-    },
-    datePicker: {
-        flex: 1,
-        borderWidth: .5,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+	},
+	datePicker: {
+		flex: 1,
+		borderWidth: 0.5,
+		borderRadius: 5,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 });
