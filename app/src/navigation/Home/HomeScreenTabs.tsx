@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { CreateMeal } from '../../components/Home/HomeTabs/CreateMeal/CreateMeal';
 import { CustomCalculation } from '../../components/Home/HomeTabs/CustomCalculation/CustomCalculation';
 import { HomeTabsParamList } from './HomeScreenTabs_types';
+import { HomeScreenContext } from '../../components/Home/HomeScreenProvider';
 
 interface HomeScreenTabRoutesProps {
-	setCurrentTab: (index: 0 | 1) => void;
 }
 
 const Tabs = createMaterialTopTabNavigator<HomeTabsParamList>();
 
-export const HomeScreenTabRoutes: React.FC<HomeScreenTabRoutesProps> = (props) => {
+export const HomeScreenTabRoutes: React.FC<HomeScreenTabRoutesProps> = ({}) => {
+    let {setCurrentTab} = useContext(HomeScreenContext);
 	return (
 		<Tabs.Navigator initialRouteName="Meal">
 			<Tabs.Screen
@@ -18,7 +19,7 @@ export const HomeScreenTabRoutes: React.FC<HomeScreenTabRoutesProps> = (props) =
 				component={CreateMeal}
 				listeners={{
 					focus: (e) => {
-						props.setCurrentTab(0);
+						setCurrentTab(0);
 					},
 				}}
 			/>
@@ -27,7 +28,7 @@ export const HomeScreenTabRoutes: React.FC<HomeScreenTabRoutesProps> = (props) =
 				component={CustomCalculation}
 				listeners={{
 					focus: (e) => {
-						props.setCurrentTab(1);
+						setCurrentTab(1);
 					},
 				}}
 			/>
