@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
-import { ListItem } from '../../shared-types';
+import { ListItem } from '../../../models/Shared/types';
 
 interface ItemPickerComponentProps {
-	data: Array<ListItem>;
+    data: Array<ListItem>;
+    _onChange: (value: string) => void;
 }
 
 export const ItemPickerComponent: React.FC<ItemPickerComponentProps> = (
@@ -12,7 +13,8 @@ export const ItemPickerComponent: React.FC<ItemPickerComponentProps> = (
 ) => {
 	return (
 		<ModalSelector
-			data={props.data}
+            data={props.data}
+            onChange={(option) => props._onChange(option.value)}
 			cancelText="Cancel"
 			backdropPressToClose={true}
 			initValue="Pick Meal Type..."

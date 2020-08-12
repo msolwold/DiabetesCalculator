@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { DataRowComponent } from '../../Shared/DataRowComponent';
 
-interface BGCalculationComponentProps {}
+interface BGCalculationComponentProps {
+	setBgInfo: (
+		currentBG: number,
+		correction: boolean,
+		correctionUnits?: number
+	) => void;
+}
 
-export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = ({}) => {
+export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = (
+	props
+) => {
 	let [currentBG, setCurrentBG] = useState<number | null>(null);
-	let [carbsFromMeal, setCarbsFromMeal] = useState<number | null>(0);
+
+	useEffect(() => {
+		let correctionUnits = _getCorrectionUnits() || 0;
+		if (correctionUnits > 0) {
+			props.setBgInfo(currentBG || 0, true, correctionUnits);
+		} else {
+			props.setBgInfo(currentBG || 0, false);
+		}
+	}, [currentBG]);
 
 	return (
 		<View style={styles.container}>
@@ -30,7 +46,7 @@ export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = ({}
 				rowName="Units for Correction"
 				rowNameStyle={styles.resultText}
 				value={_getCorrectionUnits()}
-				unit="mg/dL"
+				unit="units"
 				_onChange={() => {}}
 				editable={false}
 			/>
@@ -44,8 +60,8 @@ export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = ({}
 
 	// TODO: Set logic for correction dosage
 	function _getCorrectionUnits(): number | null {
-		if (!currentBG) return null;
-		else return 20;
+		if (!currentBG || currentBG < 120) return null;
+		else return 2;
 	}
 };
 

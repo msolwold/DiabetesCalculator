@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 	},
 	datePickerHeaderButtonsText: {
 		fontSize: 20,
-		fontWeight: '700',
+		fontWeight: '600',
 		color: '#147EFB',
 	},
 	datePickerContainer: {

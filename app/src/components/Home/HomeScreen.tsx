@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   tabs: {
     flex: 1,
     backgroundColor: "#fff",
-    borderWidth: 1,
   },
   bottom: {
     height: "5%",

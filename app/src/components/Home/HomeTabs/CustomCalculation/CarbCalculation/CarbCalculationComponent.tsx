@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, Alert } from 'react-native';
 import { DataRowComponent } from '../../Shared/DataRowComponent';
+import { CarbMealInfo } from '../../../../../models/Home/types';
 
-interface CarbCalculationComponentProps {}
+interface CarbCalculationComponentProps {
+    setCarbInfo: (mealCarbs: number, insulinDose: number) => void;
+}
 
-export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> = ({}) => {
+export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> = (props) => {
 	let [mealCarbs, setMealCarbs] = useState<number | null>(null);
 	let [insulinRatio, setInsulinRatio] = useState<number | undefined>(
 		undefined
@@ -15,7 +18,11 @@ export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> =
 			if (errors) console.log(errors);
 			else if (result) setInsulinRatio(parseInt(result));
 		});
-	}, []);
+    }, []);
+    
+    useEffect(() => {
+        props.setCarbInfo(mealCarbs || 0, _getMealUnits() || 0);
+    }, [mealCarbs])
 
 	return (
 		<View style={styles.container}>
@@ -63,7 +70,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-around',
 		width: '100%',
-		borderWidth: 0.5,
 	},
 	titleText: {
 		fontSize: 25,
