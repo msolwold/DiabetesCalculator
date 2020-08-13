@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { HomeScreenTabRoutes } from '../../navigation/Home/HomeScreenTabs';
-import { HomeButtons } from './button-row/HomeButtons';
 import { HomeScreenProvider } from './HomeScreenProvider';
+import { HomeButtons } from './HomeButtons/HomeButtons';
 
 export const HomeScreen = ({}) => {
 
