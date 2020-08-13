@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { DataRowComponent } from '../../Shared/DataRowComponent';
+import {
+	BGMealInfo,
+	MealInfo,
+	CarbMealInfo,
+} from '../../../../../models/Home/types';
 
 interface BGCalculationComponentProps {
-	setBgInfo: (
-		currentBG: number,
-		targetBG: number,
-		correction: boolean,
-		correctionUnits?: number
+	setBGInfo: (
+		mealInfo?: MealInfo,
+		bgInfo?: BGMealInfo,
+		carbInfo?: CarbMealInfo
 	) => void;
+	bgInfo: BGMealInfo;
 }
 
 export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = (
 	props
 ) => {
-	let [currentBG, setCurrentBG] = useState<number | null>(null);
-
-	useEffect(() => {
-		let correctionUnits = _getCorrectionUnits() || 0;
-		if (correctionUnits > 0) {
-			props.setBgInfo(currentBG || 0, 120, true, correctionUnits);
-		} else {
-			props.setBgInfo(currentBG || 0, 120, false);
-		}
-	}, [currentBG]);
-
 	return (
 		<View style={styles.container}>
 			<DataRowComponent
 				rowName="Current BG"
 				rowNameStyle={styles.titleText}
-				value={currentBG}
+				value={props.bgInfo.currentBG}
 				unit="mg/dL"
 				_onChange={_setCurrentBG}
 				editable={true}
@@ -38,7 +32,7 @@ export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = (
 			<DataRowComponent
 				rowName="Target BG"
 				rowNameStyle={styles.titleText}
-				value={120}
+				value={props.bgInfo.targetBG}
 				unit="mg/dL"
 				_onChange={() => {}}
 				editable={false}
@@ -46,7 +40,7 @@ export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = (
 			<DataRowComponent
 				rowName="Units for Correction"
 				rowNameStyle={styles.resultText}
-				value={_getCorrectionUnits()}
+				value={props.bgInfo.correctionUnits || null}
 				unit="units"
 				_onChange={() => {}}
 				editable={false}
@@ -55,12 +49,22 @@ export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = (
 	);
 
 	function _setCurrentBG(text: string): void {
-		if (text == '') setCurrentBG(null);
-		else setCurrentBG(parseInt(text));
+		let bgInfo: BGMealInfo;
+		if (text == '') bgInfo = new BGMealInfo();
+		else {
+			let currentBG = parseInt(text);
+			let correctionUnits: number | null = _getCorrectionUnits(currentBG);
+			bgInfo = new BGMealInfo(
+				currentBG,
+				correctionUnits != null,
+				correctionUnits || 0
+			);
+		}
+		props.setBGInfo(undefined, bgInfo);
 	}
 
 	// TODO: Set logic for correction dosage
-	function _getCorrectionUnits(): number | null {
+	function _getCorrectionUnits(currentBG: number): number | null {
 		if (!currentBG || currentBG < 120) return null;
 		else return 2;
 	}

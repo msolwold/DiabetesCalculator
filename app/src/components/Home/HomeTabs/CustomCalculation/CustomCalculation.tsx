@@ -9,65 +9,54 @@ import {
 } from '../../../../models/Home/types';
 import { MealDetailComponent } from '../Shared/MealDetails/MealDetailComponent';
 import { HomeScreenContext } from '../../HomeScreenProvider';
-import { DiabetesCalculator } from '../../../../models/Shared/enumerations';
 
 interface CustomCalculationProps {}
 
 export const CustomCalculation: React.FC<CustomCalculationProps> = ({}) => {
-	let [mealInfo, setMealInfo] = useState<MealInfo>();
-	let [bgInfo, setBgInfo] = useState<BGMealInfo>();
-	let [carbInfo, setCarbInfo] = useState<CarbMealInfo>();
+	let { _setCustomCalculation, customCalculation } = useContext(
+		HomeScreenContext
+	);
 
-	let { _setCustomCalculation } = useContext(HomeScreenContext);
-
-	useEffect(() => {
-		_setCustomCalculation({
-			mealInfo,
-			bgMealInfo: bgInfo,
-			carbMealInfo: carbInfo,
-		});
-	}, [mealInfo, bgInfo, carbInfo]);
+	// useEffect(() => {
+	// 	_setCustomCalculation({
+	// 		mealInfo,
+	// 		bgMealInfo: bgInfo,
+	// 		carbMealInfo: carbInfo,
+	// 	});
+	// }, [mealInfo, bgInfo, carbInfo]);
 
 	return (
 		<View style={styles.container}>
-			<MealDetailComponent setMealInfo={_setMealInfo} />
+			<MealDetailComponent
+				setMealInfo={_setInfo}
+				mealInfo={customCalculation.mealInfo}
+			/>
 			<KeyboardAvoidingView
 				behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
 				style={styles.container}
 			>
-				<BGCalculationComponent setBgInfo={_setBgInfo} />
-				<CarbCalculationComponent setCarbInfo={_setCarbInfo} />
+				<BGCalculationComponent
+					setBGInfo={_setInfo}
+					bgInfo={customCalculation.bgMealInfo}
+				/>
+				<CarbCalculationComponent
+					setCarbInfo={_setInfo}
+					carbInfo={customCalculation.carbMealInfo}
+				/>
 			</KeyboardAvoidingView>
 		</View>
 	);
 
-	function _setMealInfo(
-		mealName: string,
-		mealType: DiabetesCalculator.MealType,
-		mealDate: Date
+	function _setInfo(
+		mealInfo: MealInfo = customCalculation.mealInfo,
+		bgInfo: BGMealInfo = customCalculation.bgMealInfo,
+		carbInfo: CarbMealInfo = customCalculation.carbMealInfo
 	): void {
-		setMealInfo({ mealName, mealType, mealDate, enteredDate: new Date() });
-	}
-
-	function _setBgInfo(
-		currentBG: number,
-		targetBG: number,
-		correction: boolean,
-		correctionUnits?: number
-	): void {
-		if (correction) {
-			setBgInfo({ currentBG, targetBG, correction, correctionUnits });
-		} else {
-			setBgInfo({ currentBG, targetBG, correction });
-		}
-	}
-
-	function _setCarbInfo(
-		mealCarbs: number,
-		carbsPerUnit: number,
-		insulinDose: number
-	): void {
-		setCarbInfo({ mealCarbs, carbsPerUnit, insulinDose });
+		_setCustomCalculation({
+			mealInfo: mealInfo,
+			bgMealInfo: bgInfo,
+			carbMealInfo: carbInfo,
+		});
 	}
 };
 

@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, Alert } from 'react-native';
 import { DataRowComponent } from '../../Shared/DataRowComponent';
+import {
+	MealInfo,
+	BGMealInfo,
+	CarbMealInfo,
+} from '../../../../../models/Home/types';
 
 interface CarbCalculationComponentProps {
 	setCarbInfo: (
-		mealCarbs: number,
-		carbsPerUnit: number,
-		insulinDose: number
+		mealInfo?: MealInfo,
+		bgInfo?: BGMealInfo,
+		carbInfo?: CarbMealInfo
 	) => void;
+	carbInfo: CarbMealInfo;
 }
 
 export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> = (
 	props
 ) => {
-	let [mealCarbs, setMealCarbs] = useState<number | null>(null);
-	let [insulinRatio, setInsulinRatio] = useState<number | null>(null);
+	let [insulinRatio, setInsulinRatio] = useState<number>();
 
 	useEffect(() => {
 		AsyncStorage.getItem('insulinRatio', (errors, result) => {
@@ -23,20 +28,12 @@ export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> =
 		});
 	});
 
-	useEffect(() => {
-		props.setCarbInfo(
-			mealCarbs || 0,
-			insulinRatio || 0,
-			_getMealUnits() || 0
-		);
-	}, [mealCarbs]);
-
 	return (
 		<View style={styles.container}>
 			<DataRowComponent
 				rowName="Carbs from Meal"
 				rowNameStyle={styles.titleText}
-				value={mealCarbs}
+				value={props.carbInfo.mealCarbs}
 				unit="carbs"
 				_onChange={_setMealCarbs}
 				editable={true}
@@ -52,7 +49,7 @@ export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> =
 			<DataRowComponent
 				rowName="Units for Meal"
 				rowNameStyle={styles.resultText}
-				value={_getMealUnits()}
+				value={props.carbInfo.insulinDose}
 				unit="units"
 				_onChange={() => {}}
 				editable={false}
@@ -61,12 +58,22 @@ export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> =
 	);
 
 	function _setMealCarbs(text: string): void {
-		if (text == '') setMealCarbs(null);
-		else setMealCarbs(parseInt(text));
+		let carbInfo: CarbMealInfo;
+		if (text == '') carbInfo = new CarbMealInfo();
+		else {
+			let mealCarbs = parseInt(text);
+			let insulinDose = _getMealUnits(mealCarbs);
+			carbInfo = new CarbMealInfo(
+				mealCarbs,
+				insulinRatio,
+				insulinDose || undefined
+			);
+		}
+		props.setCarbInfo(undefined, undefined, carbInfo);
 	}
 
 	// TODO: Maybe make this more betterer
-	function _getMealUnits(): number | null {
+	function _getMealUnits(mealCarbs: number): number | null {
 		if (!mealCarbs || !insulinRatio) return null;
 		return Math.round((mealCarbs / insulinRatio) * 10) / 10;
 	}

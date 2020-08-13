@@ -11,26 +11,25 @@ import moment from 'moment';
 import { ItemPickerComponent } from '../../../../Shared/ItemPicker/ItemPickerComponent';
 import { mealTypes } from '../../../../../models/Shared/listItems';
 import { DiabetesCalculator } from '../../../../../models/Shared/enumerations';
+import {
+	MealInfo,
+	CarbMealInfo,
+	BGMealInfo,
+} from '../../../../../models/Home/types';
 
 interface MealDetailComponentProps {
 	setMealInfo: (
-		mealName: string,
-		mealType: DiabetesCalculator.MealType,
-		mealDate: Date
+		mealInfo?: MealInfo,
+		bgInfo?: BGMealInfo,
+		carbInfo?: CarbMealInfo
 	) => void;
+	mealInfo: MealInfo;
 }
 
 export const MealDetailComponent: React.FC<MealDetailComponentProps> = (
 	props
 ) => {
-	let [mealName, setMealName] = useState<string>('');
-	let [mealType, setMealType] = useState<DiabetesCalculator.MealType>(-1);
-	let [mealDate, setMealDate] = useState<Date>(new Date());
 	let [dateModalVisible, setDateModalVisible] = useState<boolean>(false);
-
-	useEffect(() => {
-		props.setMealInfo(mealName, mealType, mealDate);
-	}, [mealName, mealType, mealDate]);
 
 	return (
 		<View style={styles.container}>
@@ -39,8 +38,8 @@ export const MealDetailComponent: React.FC<MealDetailComponentProps> = (
 					<TextInput
 						returnKeyType="done"
 						placeholder="Enter Meal Name..."
-						value={mealName}
-						onChangeText={(text) => setMealName(text)}
+						value={props.mealInfo.mealName}
+						onChangeText={_setMealName}
 						style={styles.nameInput}
 					></TextInput>
 				</MealDetailItemComponent>
@@ -50,7 +49,7 @@ export const MealDetailComponent: React.FC<MealDetailComponentProps> = (
 				<MealDetailItemComponent labelName="Meal Type">
 					<ItemPickerComponent
 						data={mealTypes}
-						_onChange={setMealType}
+						_onChange={_setMealType}
 					/>
 				</MealDetailItemComponent>
 
@@ -59,14 +58,18 @@ export const MealDetailComponent: React.FC<MealDetailComponentProps> = (
 						style={styles.datePicker}
 						onPress={() => _toggleModal()}
 					>
-						<Text>{moment(mealDate).format('MMMM Do YYYY')}</Text>
+						<Text>
+							{moment(props.mealInfo.mealDate).format(
+								'MMMM Do YYYY'
+							)}
+						</Text>
 					</TouchableOpacity>
 				</MealDetailItemComponent>
 			</View>
 
 			<DatePickerComponent
 				isVisible={dateModalVisible}
-				savedDate={mealDate}
+				savedDate={props.mealInfo.mealDate}
 				saveDate={_setDate}
 				closeModal={_toggleModal}
 				resetDate={_resetDate}
@@ -74,13 +77,29 @@ export const MealDetailComponent: React.FC<MealDetailComponentProps> = (
 		</View>
 	);
 
+	function _updateMealInfo(
+		mealName: string = props.mealInfo.mealName,
+		mealType: DiabetesCalculator.MealType = props.mealInfo.mealType,
+		mealDate: Date = props.mealInfo.mealDate
+	): void {
+		props.setMealInfo(new MealInfo(mealName, mealType, mealDate));
+	}
+
+	function _setMealName(name: string) {
+		_updateMealInfo(name);
+	}
+
+	function _setMealType(key: number) {
+		_updateMealInfo(undefined, key);
+	}
+
 	function _setDate(date: Date): void {
-		setMealDate(date);
+		_updateMealInfo(undefined, undefined, date);
 		_toggleModal();
 	}
 
 	function _resetDate(): void {
-		setMealDate(new Date());
+		_setDate(new Date());
 		_toggleModal();
 	}
 
