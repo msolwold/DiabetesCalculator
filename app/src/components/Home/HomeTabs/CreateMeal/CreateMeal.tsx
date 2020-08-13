@@ -12,9 +12,9 @@ export const CreateMeal: React.FC<CreateMealProps> = ({}) => {
 	let [mealInfo, setMealInfo] = useState<MealInfo>();
 	return (
 		<View style={styles.container}>
-			<MealDetailComponent
+{/* 			<MealDetailComponent
 				setMealInfo={_setMealInfo}
-			/>
+			/> */}
 			<MealAssembler></MealAssembler>
 			<MealCalculation></MealCalculation>
 		</View>
