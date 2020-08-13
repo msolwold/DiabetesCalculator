@@ -20,7 +20,7 @@ export class MealInfo {
 
 export class BGMealInfo {
 	constructor(
-		currentBG: number = 0,
+		currentBG: number | undefined = undefined,
 		correction: boolean = false,
 		correctionUnits: number = 0
 	) {
@@ -29,7 +29,7 @@ export class BGMealInfo {
 		this.correctionUnits = correctionUnits;
 	}
 
-	public currentBG: number;
+	public currentBG: number | undefined;
 	public targetBG: number = 120; // TODO: pull from storage
 	public correction: boolean;
 	public correctionUnits?: number;
@@ -37,7 +37,7 @@ export class BGMealInfo {
 
 export class CarbMealInfo {
 	constructor(
-		mealCarbs: number = 0,
+		mealCarbs: number | undefined = undefined,
 		carbsPerUnit: number = 0,
 		insulinDose: number = 0
 	) {
@@ -46,7 +46,7 @@ export class CarbMealInfo {
 		this.insulinDose = insulinDose;
     }
     
-	public mealCarbs: number;
+	public mealCarbs: number | undefined;
 	public carbsPerUnit: number;
 	public insulinDose: number;
 }
