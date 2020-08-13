@@ -5,7 +5,7 @@ import { ListItem } from '../../../models/Shared/types';
 
 interface ItemPickerComponentProps {
     data: Array<ListItem>;
-    _onChange: (value: string) => void;
+    _onChange: (key: number) => void;
 }
 
 export const ItemPickerComponent: React.FC<ItemPickerComponentProps> = (
@@ -14,7 +14,7 @@ export const ItemPickerComponent: React.FC<ItemPickerComponentProps> = (
 	return (
 		<ModalSelector
             data={props.data}
-            onChange={(option) => props._onChange(option.value)}
+            onChange={(option) => props._onChange(option.key)}
 			cancelText="Cancel"
 			backdropPressToClose={true}
 			initValue="Pick Meal Type..."
