@@ -1,32 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { CarbCalculationComponent } from './CarbCalculation/CarbCalculationComponent';
 import { BGCalculationComponent } from './BGCalculation/BGCalculationComponent';
-import { BGMealInfo, CarbMealInfo } from '../../../../models/Home/types';
+import {
+	BGMealInfo,
+	CarbMealInfo,
+	MealInfo,
+} from '../../../../models/Home/types';
 import { MealDetailComponent } from '../Shared/MealDetails/MealDetailComponent';
+import { HomeScreenContext } from '../../HomeScreenProvider';
+import { DiabetesCalculator } from '../../../../models/Shared/enumerations';
 
 interface CustomCalculationProps {}
 
 export const CustomCalculation: React.FC<CustomCalculationProps> = ({}) => {
-	let [mealName, setMealName] = useState<string>('');
-	let [mealType, setMealType] = useState<string>('breakfast');
-	let [mealDate, setMealDate] = useState<Date>(new Date());
-	let [bgInfo, setBgInfo] = useState<BGMealInfo | null>(null);
-	let [carbInfo, setCarbInfo] = useState<CarbMealInfo | null>(null);
-/* 
+	let [mealInfo, setMealInfo] = useState<MealInfo>();
+	let [bgInfo, setBgInfo] = useState<BGMealInfo>();
+	let [carbInfo, setCarbInfo] = useState<CarbMealInfo>();
+
+	let { _setCustomCalculation } = useContext(HomeScreenContext);
+
 	useEffect(() => {
-		console.log(mealName, mealType, mealDate, bgInfo, carbInfo);
-	}); */
+		_setCustomCalculation({
+			mealInfo,
+			bgMealInfo: bgInfo,
+			carbMealInfo: carbInfo,
+		});
+	}, [mealInfo, bgInfo, carbInfo]);
 
 	return (
 		<View style={styles.container}>
-			<MealDetailComponent
-				mealName={mealName}
-				setMealName={setMealName}
-				setMealType={setMealType}
-				mealDate={mealDate}
-				setMealDate={setMealDate}
-			/>
+			<MealDetailComponent setMealInfo={_setMealInfo} />
 			<KeyboardAvoidingView
 				behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
 				style={styles.container}
@@ -37,20 +41,33 @@ export const CustomCalculation: React.FC<CustomCalculationProps> = ({}) => {
 		</View>
 	);
 
+	function _setMealInfo(
+		mealName: string,
+		mealType: DiabetesCalculator.MealType,
+		mealDate: Date
+	): void {
+		setMealInfo({ mealName, mealType, mealDate, enteredDate: new Date() });
+	}
+
 	function _setBgInfo(
 		currentBG: number,
+		targetBG: number,
 		correction: boolean,
 		correctionUnits?: number
 	): void {
 		if (correction) {
-			setBgInfo({ currentBG, correction, correctionUnits });
+			setBgInfo({ currentBG, targetBG, correction, correctionUnits });
 		} else {
-			setBgInfo({ currentBG, correction });
+			setBgInfo({ currentBG, targetBG, correction });
 		}
 	}
 
-	function _setCarbInfo(mealCarbs: number, insulinDose: number): void {
-		setCarbInfo({ mealCarbs, insulinDose });
+	function _setCarbInfo(
+		mealCarbs: number,
+		carbsPerUnit: number,
+		insulinDose: number
+	): void {
+		setCarbInfo({ mealCarbs, carbsPerUnit, insulinDose });
 	}
 };
 

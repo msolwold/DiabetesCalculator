@@ -5,6 +5,7 @@ import { DataRowComponent } from '../../Shared/DataRowComponent';
 interface BGCalculationComponentProps {
 	setBgInfo: (
 		currentBG: number,
+		targetBG: number,
 		correction: boolean,
 		correctionUnits?: number
 	) => void;
@@ -18,9 +19,9 @@ export const BGCalculationComponent: React.FC<BGCalculationComponentProps> = (
 	useEffect(() => {
 		let correctionUnits = _getCorrectionUnits() || 0;
 		if (correctionUnits > 0) {
-			props.setBgInfo(currentBG || 0, true, correctionUnits);
+			props.setBgInfo(currentBG || 0, 120, true, correctionUnits);
 		} else {
-			props.setBgInfo(currentBG || 0, false);
+			props.setBgInfo(currentBG || 0, 120, false);
 		}
 	}, [currentBG]);
 

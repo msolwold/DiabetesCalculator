@@ -1,18 +1,19 @@
 import React, { createContext, useState } from 'react';
+import { Meal } from '../../models/Shared/types';
 
 export const HomeScreenContext = createContext<{
-	mealCalculation: any;
-	customCalculation: any;
-	_setMealCalculation: () => void;
-	_setCustomCalculation: () => void;
-    currentTab: 0 | 1;
-    setCurrentTab: (index: 0 | 1) => void;
+	mealCalculation: Meal | undefined;
+	customCalculation: Meal | undefined;
+	_setMealCalculation: (meal: Meal) => void;
+	_setCustomCalculation: (meal: Meal) => void;
+	currentTab: 0 | 1;
+	setCurrentTab: (index: 0 | 1) => void;
 }>({
-	mealCalculation: null,
-	customCalculation: null,
+	mealCalculation: undefined,
+	customCalculation: undefined,
 	_setMealCalculation: () => {},
-    _setCustomCalculation: () => {},
-    currentTab: 0,
+	_setCustomCalculation: () => {},
+	currentTab: 0,
 	setCurrentTab: () => {},
 });
 
@@ -21,8 +22,8 @@ interface HomeScreenProviderProps {}
 export const HomeScreenProvider: React.FC<HomeScreenProviderProps> = ({
 	children,
 }) => {
-	let [mealCalculation, setMealCalculation] = useState();
-	let [customCalculation, setCustomCalculation] = useState();
+	let [mealCalculation, setMealCalculation] = useState<Meal>();
+	let [customCalculation, setCustomCalculation] = useState<Meal>();
 	let [currentTab, setCurrentTab] = useState<0 | 1>(0);
 
 	return (
@@ -31,8 +32,8 @@ export const HomeScreenProvider: React.FC<HomeScreenProviderProps> = ({
 				mealCalculation,
 				customCalculation,
 				_setMealCalculation,
-                _setCustomCalculation,
-                currentTab,
+				_setCustomCalculation,
+				currentTab,
 				setCurrentTab,
 			}}
 		>
@@ -40,11 +41,11 @@ export const HomeScreenProvider: React.FC<HomeScreenProviderProps> = ({
 		</HomeScreenContext.Provider>
 	);
 
-	function _setMealCalculation() {
-		console.log('_setMealCalculation');
+	function _setMealCalculation(meal: Meal) {
+		setMealCalculation(meal);
 	}
 
-	function _setCustomCalculation() {
-		console.log('_setCustomCalculation');
+	function _setCustomCalculation(meal: Meal) {
+		setCustomCalculation(meal);
 	}
 };

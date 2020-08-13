@@ -1,28 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, AsyncStorage, Alert } from 'react-native';
 import { DataRowComponent } from '../../Shared/DataRowComponent';
-import { CarbMealInfo } from '../../../../../models/Home/types';
 
 interface CarbCalculationComponentProps {
-    setCarbInfo: (mealCarbs: number, insulinDose: number) => void;
+	setCarbInfo: (
+		mealCarbs: number,
+		carbsPerUnit: number,
+		insulinDose: number
+	) => void;
 }
 
-export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> = (props) => {
+export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> = (
+	props
+) => {
 	let [mealCarbs, setMealCarbs] = useState<number | null>(null);
-	let [insulinRatio, setInsulinRatio] = useState<number | undefined>(
-		undefined
-	);
+	let [insulinRatio, setInsulinRatio] = useState<number | null>(null);
 
 	useEffect(() => {
 		AsyncStorage.getItem('insulinRatio', (errors, result) => {
 			if (errors) console.log(errors);
 			else if (result) setInsulinRatio(parseInt(result));
 		});
-    }, []);
-    
-    useEffect(() => {
-        props.setCarbInfo(mealCarbs || 0, _getMealUnits() || 0);
-    }, [mealCarbs])
+	});
+
+	useEffect(() => {
+		props.setCarbInfo(
+			mealCarbs || 0,
+			insulinRatio || 0,
+			_getMealUnits() || 0
+		);
+	}, [mealCarbs]);
 
 	return (
 		<View style={styles.container}>
@@ -58,7 +65,7 @@ export const CarbCalculationComponent: React.FC<CarbCalculationComponentProps> =
 		else setMealCarbs(parseInt(text));
 	}
 
-    // TODO: Maybe make this more betterer
+	// TODO: Maybe make this more betterer
 	function _getMealUnits(): number | null {
 		if (!mealCarbs || !insulinRatio) return null;
 		return Math.round((mealCarbs / insulinRatio) * 10) / 10;

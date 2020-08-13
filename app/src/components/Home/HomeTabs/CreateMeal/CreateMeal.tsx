@@ -3,26 +3,30 @@ import { View, Text, StyleSheet } from 'react-native';
 import { MealAssembler } from './meal-assembler/MealAssembler';
 import { MealCalculation } from './calulculations/MealCalculation';
 import { MealDetailComponent } from '../Shared/MealDetails/MealDetailComponent';
+import { MealInfo } from '../../../../models/Home/types';
+import { DiabetesCalculator } from '../../../../models/Shared/enumerations';
 
 interface CreateMealProps {}
 
 export const CreateMeal: React.FC<CreateMealProps> = ({}) => {
-	let [mealName, setMealName] = useState<string>('');
-	let [mealType, setMealType] = useState<string>('breakfast');
-	let [mealDate, setMealDate] = useState<Date>(new Date());
+	let [mealInfo, setMealInfo] = useState<MealInfo>();
 	return (
 		<View style={styles.container}>
 			<MealDetailComponent
-				mealName={mealName}
-				setMealName={setMealName}
-				setMealType={setMealType}
-				mealDate={mealDate}
-				setMealDate={setMealDate}
+				setMealInfo={_setMealInfo}
 			/>
 			<MealAssembler></MealAssembler>
 			<MealCalculation></MealCalculation>
 		</View>
 	);
+
+	function _setMealInfo(
+		mealName: string,
+		mealType: DiabetesCalculator.MealType,
+		mealDate: Date
+	): void {
+		setMealInfo({ mealName, mealType, mealDate, enteredDate: new Date() });
+	}
 };
 
 const styles = StyleSheet.create({
