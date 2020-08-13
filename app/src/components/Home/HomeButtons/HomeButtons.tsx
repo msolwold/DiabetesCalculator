@@ -5,7 +5,7 @@ import { HomeScreenContext } from '../HomeScreenProvider';
 interface HomeButtonsProps {}
 
 export const HomeButtons: React.FC<HomeButtonsProps> = ({}) => {
-	let { mealCalculation, customCalculation, currentTab } = useContext(
+	let { mealCalculation, customCalculation, currentTab, _clearCustomCalculation } = useContext(
 		HomeScreenContext
 	);
 
@@ -13,7 +13,8 @@ export const HomeButtons: React.FC<HomeButtonsProps> = ({}) => {
 		<View style={styles.container}>
 			<TouchableOpacity
 				onPress={() => {
-					alert('TEMP: Are you sure you want to clear the screen?');
+					alert('TEMP: Are you sure you want to clear the screen?')
+					_clearCustomCalculation();
 				}}
 				style={styles.button}
 			>
